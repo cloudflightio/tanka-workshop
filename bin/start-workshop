@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+if [ "${BASH_SOURCE-}" = "$0" ]; then
+  echo "You must source this script: \$ source $0" >&2
+  exit 33
+fi
+
+. bin/activate-hermit
+
+echo "Please tell me your preferred name (name/alias/handle)"
+echo "It must be a valid RFC 1123 Label Name. This means it must:"
+echo " + contain at most 63 characters"
+echo " + contain only lowercase alphanumeric characters or '-'"
+echo " + start with an alphanumeric character"
+echo " + end with an alphanumeric character"
+echo -n "Name: "
+read name
+
+curl https://workshop-k3s.cloudflight.dev/kubeconfig > vendor/kubeconfig
+export KUBECONFIG=$PWD/vendor/kubeconfig
+echo $KUBECONFIG
+yq -i ".contexts[0].context.namespace = \"$name\"" vendor/kubeconfig
+set -x
+kubectl create ns $name
+tk env set environments/default --server=https://workshop-k3s.cloudflight.dev:6443 --namespace=$name
+set +x
