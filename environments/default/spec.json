@@ -1,0 +1,14 @@
+{
+  "apiVersion": "tanka.dev/v1alpha1",
+  "kind": "Environment",
+  "metadata": {
+    "name": "environments/default",
+    "namespace": "environments/default/main.jsonnet"
+  },
+  "spec": {
+    "apiServer": "https://workshop-k3s.cloudflight.dev:6443",
+    "namespace": "<REPLACE-ME>",
+    "resourceDefaults": {},
+    "expectVersions": {}
+  }
+}
