@@ -16,6 +16,7 @@ echo " + end with an alphanumeric character"
 echo -n "Name: "
 read name
 
+mkdir -p vendor
 curl https://workshop-k3s.cloudflight.dev/kubeconfig > vendor/kubeconfig
 export KUBECONFIG=$PWD/vendor/kubeconfig
 echo $KUBECONFIG
